@@ -1,0 +1,17 @@
+This jQuery plugin helps ease the creation of an illusion of an animation using an image that has been stitched together. Otherwise it's another shit slideshow tool.
+
+Web Developer: Carlo Cruz
+Site: http://www.carlocruz.com
+Twitter: @carlocruz
+Location: Melbourne, Australia
+
+Todo:
+- Allow images that are stacked
+- Allow for gaps between images
+- Allow for seperate images
+
+License:
+The Unlicense http://unlicense.org/
+
+I'd appreciate an msg if you end up using it
+
