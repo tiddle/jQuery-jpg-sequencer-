@@ -3,8 +3,8 @@
     var pluginName = 'jpeg Sequencer',
         defaults = {
             direction: "right",
-            imageAmount: 5,
-            delay: 1000, // milliseconds
+            imageAmount: 3,
+            delay: 100, // milliseconds
             directionWidth: 20, // width of the directional arrows
             directionName: 'jpegseq', // class name of directional
             css: true, //include css stylings for directional arrows
@@ -45,16 +45,65 @@
         }
         
         // mmm i want to clean this up, not sure how
+        
+        var amountMoved = 0;
+        
+        // On click events
+        $(this.element).children('div').bind('click', {movement: elementWidth, wholeWidth: wholeWidth}, function(e) {
+			if($(this).hasClass('left'))
+			{
+				if(amountMoved != 0)
+				{
+					
+					amountMoved += e.data.movement;
+					console.log(amountMoved);
+					$(this).parent().css('background-position', amountMoved+'px 0');
+				}
+			}
+			
+			if($(this).hasClass('right'))
+			{
+				if(amountMoved != ((wholeWidth-e.data.movement) *-1))
+				{
+					amountMoved -= e.data.movement;
+					console.log(amountMoved);
+					$(this).parent().css('background-position', amountMoved+'px 0');
+				}
+			}
+			        	
+        });
+        
+        
         var delay = this.options.delay;
-        $(this.element).children('div').bind('click', {delay: delay, movement: elementWidth}, function(e) {
+
+		$(this.element).children('div').bind('mouseover', {delay: delay},function(){
 			
+			var thiselement = this;
 			
+ 			myInterval = setInterval(function(){
+ 				hoverTrigger(thiselement);
+			}, delay);
+	    });
+	    
+	    $(this.element).children('div').bind('mouseout', {delay: delay},function(){
+			clearInterval(myInterval);
+			myInterval = false;
+		});
+		
+		
+		// function for triggering on hover events, if enabled
+		function hoverTrigger(thiselement) {
+			if($(thiselement).hasClass('left'))
+			{
+				$(thiselement).parent().children('.left').click();
+				console.log('left');
+			}
 			
-        	$(this).parent().css('background-position', e.data.movement+'px 0');
-        	
-        })
-        
-        
+			if($(thiselement).hasClass('right'))
+			{
+				$(thiselement).parent().children('.right').click()
+			}
+		}
 		
 	};
 
