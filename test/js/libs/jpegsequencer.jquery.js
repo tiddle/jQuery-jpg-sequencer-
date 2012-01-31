@@ -8,7 +8,8 @@
             directionWidth: 20, // width of the directional arrows
             directionName: 'jpegseq', // class name of directional
             css: true, //include css stylings for directional arrows
-            trigger: 'hover' // trigger for movement
+            trigger: 'hover', // trigger for movement
+            gap: 0 // gap between images
         };
 
     function Plugin( element, options ) {
@@ -57,6 +58,7 @@
         
         var amountMoved = 0;
         var direction = this.options.direction;
+        var gap = this.options.gap;
         
         if(this.options.direction == "right")
         	var movement = elementWidth;
@@ -64,12 +66,12 @@
         	var movement = elementHeight;
         
         // On click events
-        $(this.element).children('div').bind('click', {movement: movement, wholeWidth: wholeWidth, wholeHeight: wholeHeight, direction: direction}, function(e) {
+        $(this.element).children('div').bind('click', {movement: movement, wholeWidth: wholeWidth, wholeHeight: wholeHeight, direction: direction, gap: gap}, function(e) {
 			if($(this).hasClass('left'))
 			{
 				if(amountMoved != 0)
 				{
-					amountMoved += e.data.movement;
+					amountMoved += e.data.movement+gap;
 					
 					if(direction == "right")
 						$(this).parent().css('background-position', amountMoved+'px 0');
@@ -86,7 +88,7 @@
 					var directionWidth = wholeHeight;
 				if(amountMoved != ((directionWidth-e.data.movement) *-1))
 				{
-					amountMoved -= e.data.movement;
+					amountMoved -= e.data.movement-gap;
 					
 					if(direction == "right")
 						$(this).parent().css('background-position', amountMoved+'px 0');
@@ -103,10 +105,12 @@
 		$(this.element).children('div').bind('mouseover', {delay: delay},function(){
 			
 			var thiselement = this;
-			
- 			myInterval = setInterval(function(){
- 				hoverTrigger(thiselement);
-			}, delay);
+			if(trigger == "hover")
+			{
+	 			myInterval = setInterval(function(){
+	 				hoverTrigger(thiselement);
+				}, delay);
+			}
 	    });
 	    
 	    $(this.element).children('div').bind('mouseout', {delay: delay},function(){
